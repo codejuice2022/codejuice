@@ -3,6 +3,7 @@ import { Alert } from 'react-native'
 import { useSelector } from 'react-redux'
 import CommonButton from '~/src/components/CommonButton'
 import { ClosingLine, EndStepWrap } from '~/src/components/end-components'
+import { postGameClearData } from '~/utils/api/game'
 import { RootState } from '../core/redux/rootReducer'
 
 const EndStep = () => {
@@ -12,11 +13,30 @@ const EndStep = () => {
 
   useEffect(() => {
     if (isUpload) {
-      Alert.alert(`이름: ${userInfo.name}\n스코어: ${gameScore}`)
-
-      setIsUpload(false)
+      // 중복 api 방지
+      saveClearData()
     }
   }, [isUpload])
+
+  const saveClearData = async () => {
+    try {
+      const _res = await postGameClearData({
+        center: userInfo.center,
+        userName: userInfo.name,
+        phone: userInfo.phone,
+        score: gameScore,
+      })
+
+      if (_res) {
+        Alert.alert('저장되었습니다.')
+      }
+    } catch (e) {
+      console.error(e)
+      Alert.alert('저장에 실패하였습니다.')
+    }
+
+    setIsUpload(false)
+  }
 
   const handleUploadResult = () => {
     setIsUpload(true)

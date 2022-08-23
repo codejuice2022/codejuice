@@ -6,16 +6,12 @@ import { CLEAR_GAME, GET_GAME_LOG, SET_CANVAS_OPTION } from '~/consts/web-view-m
 import { setGameScore } from '~/core/redux/slices/globalSlice'
 
 import { useDispatch } from 'react-redux'
-import gameMap from '~/utils/picking-game/picking-game-map.json'
-
-interface StyleProps {
-  canvasWidth: number
-}
 
 interface Props {
   moveToNextStep: () => void
+  gameMap: number[][]
 }
-const PickingGameCanvas = ({ moveToNextStep }: Props) => {
+const PickingGameCanvas = ({ moveToNextStep, gameMap }: Props) => {
   const dispatch = useDispatch()
   const webviewRef = useRef<WebView>(null)
 

@@ -19,6 +19,7 @@ import {
   SelectorWrap,
 } from '~/src/components/intro-components'
 import CommonLayout from '~/src/layout/CommonLayout'
+import { getCenterList } from '../utils/api/game'
 
 type PickingStepScreenProp = StackNavigationProp<RootStackParamList, RouteList>
 
@@ -29,11 +30,22 @@ const Intro = () => {
   const phoneInput = useRef<PhoneInput>(null)
   const [userName, setUserName] = useState('')
   const [center, setCenter] = useState('송파')
+  const [centerList, setCenterList] = useState<string[]>([])
   const [phone, setPhone] = useState('')
   const [formatted, setFormatted] = useState('')
   const [isPhoneChecked, setIsPhoneChecked] = useState(false)
 
   const isActive = useMemo(() => !!(userName && center && isPhoneChecked), [userName, center, isPhoneChecked])
+
+  useEffect(() => {
+    fetchCenterList()
+  }, [])
+
+  const fetchCenterList = async () => {
+    const _list = await getCenterList()
+
+    setCenterList(_list)
+  }
 
   const handleStartButton = () => {
     if (!isPhoneChecked) {
@@ -81,14 +93,9 @@ const Intro = () => {
                 onValueChange={(v) => setCenter(v)}
                 style={{ fontSize: 12, color: '#222', height: 40 }}
               >
-                <Picker.Item value={'송파'} label={'송파'} style={{ fontSize: 12 }} />
-                <Picker.Item value={'화도'} label={'화도'} style={{ fontSize: 12 }} />
-                <Picker.Item value={'죽전'} label={'죽전'} style={{ fontSize: 12 }} />
-                <Picker.Item value={'곤지암'} label={'곤지암'} style={{ fontSize: 12 }} />
-                <Picker.Item value={'김포'} label={'김포'} style={{ fontSize: 12 }} />
-                <Picker.Item value={'고촌'} label={'고촌'} style={{ fontSize: 12 }} />
-                <Picker.Item value={'항동'} label={'항동'} style={{ fontSize: 12 }} />
-                <Picker.Item value={'삼우'} label={'삼우'} style={{ fontSize: 12 }} />
+                {centerList.map((centerId) => (
+                  <Picker.Item key={centerId} value={centerId} label={centerId} style={{ fontSize: 12 }} />
+                ))}
               </Picker>
             </SelectorWrap>
           </InputWrap>
