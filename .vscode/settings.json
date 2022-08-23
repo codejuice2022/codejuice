@@ -1,0 +1,14 @@
+{
+  "editor.tabSize": 2,
+  "editor.renderWhitespace": "all",
+  "editor.rulers": [
+    80,
+    {
+      "column": 100,
+      "color": "#FF06"
+    }, {
+      "column": 120,
+      "color": "#F006"
+    }
+  ],
+}
