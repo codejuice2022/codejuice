@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { useEffect, useState } from 'react'
-import { Text } from 'react-native'
+import { Alert, Text } from 'react-native'
 import SystemNavigationBar from 'react-native-system-navigation-bar'
 import { useSelector } from 'react-redux'
 import { RootStackParamList, RouteList } from '~/consts/types/rootStackParams'
@@ -27,9 +27,13 @@ const PickingStep = () => {
   }, [centerId])
 
   const fetchGameMap = async () => {
-    const _map = await getGameMap(centerId)
+    try {
+      const _map = await getGameMap(centerId)
 
-    setGameMap(_map)
+      setGameMap(_map)
+    } catch (e) {
+      Alert.alert('센터 정보를 받는데 실패하였습니다.\n잠시 후 다시 시도해주세요.')
+    }
   }
 
   const moveToNextStep = () => {

@@ -42,9 +42,13 @@ const Intro = () => {
   }, [])
 
   const fetchCenterList = async () => {
-    const _list = await getCenterList()
+    try {
+      const _list = await getCenterList()
 
-    setCenterList(_list)
+      setCenterList(_list)
+    } catch (e) {
+      Alert.alert('센터 정보를 받는데 실패하였습니다.\n잠시 후 다시 시도해주세요.')
+    }
   }
 
   const handleStartButton = () => {

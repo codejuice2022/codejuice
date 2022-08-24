@@ -25,7 +25,15 @@ export const customFetch: CustomFetch = async (_url: string, _param: any) => {
       return await res.json()
 
     default:
-      console.log(res)
+      console.error(res)
+
+      throw new Error(
+        JSON.stringify({
+          status: res.status,
+          message: JSON.stringify(res),
+        })
+      )
+
       break
   }
 }
